@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechStore - Tu Tienda de Tecnología Online</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* Banner Superior */
+        .banner {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="tech" patternUnits="userSpaceOnUse" width="20" height="20"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23tech)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .banner-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo {
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(45deg, #fff, #a8d8ea);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tagline {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        /* Menú de Navegación */
+        .nav-menu {
+            background: #2c3e50;
+            padding: 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-menu ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-menu li {
+            margin: 0;
+        }
+
+        .nav-menu a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 20px 25px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-menu a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #3498db, #2ecc71);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .nav-menu a:hover::before {
+            left: 0;
+        }
+
+        .nav-menu a:hover {
+            transform: translateY(-3px);
+            color: white;
+        }
+
+        /* Contenido Principal */
+        .content {
+            padding: 40px;
+            min-height: 400px;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-size: 2.5em;
+            text-align: center;
+            background: linear-gradient(45deg, #3498db, #2ecc71);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section p {
+            margin-bottom: 20px;
+            font-size: 1.1em;
+            line-height: 1.8;
+            text-align: justify;
+        }
+
+        /* Tarjetas de equipo */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .team-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .team-card h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        /* Servicios */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .service-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: scale(1.05);
+        }
+
+        .service-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        /* Formulario de contacto */
+        .contact-info {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .contact-info h3 {
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .contact-item {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            backdrop-filter: blur(5px);
+        }
+
+        .map-container {
+            width: 100%;
+            height: 300px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Formulario de cotización */
+        .quote-form {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            box-shadow: 0 4px 20px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn-submit {
+            background: linear-gradient(45deg, #3498db, #2ecc71);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu ul {
+                flex-direction: column;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .logo {
+                font-size: 2em;
+            }
+            
+            .section h2 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Banner Superior -->
+        <header class="banner">
+            <div class="banner-content">
+                <div class="logo">🚀 TechStore</div>
+                <div class="tagline">La tecnología del futuro, hoy en tus manos</div>
+            </div>
+        </header>
+
+        <!-- Menú de Navegación -->
+        <nav class="nav-menu">
+            <ul>
+                <li><a href="#" onclick="showSection('tienda')">🏪 Nuestra Tienda Online</a></li>
+                <li><a href="#" onclick="showSection('servicios')">⚙️ Servicios</a></li>
+                <li><a href="#" onclick="showSection('contacto')">📞 Contáctenos</a></li>
+                <li><a href="#" onclick="showSection('cotizacion')">💰 Solicitud de Cotización</a></li>
+            </ul>
+        </nav>
+
+        <!-- Contenido Principal -->
+        <main class="content">
+            <!-- Sección Nuestra Tienda Online -->
+            <section id="tienda" class="section active">
+                <h2>Nuestra Tienda Online</h2>
+                <p>Bienvenidos a TechStore, tu destino número uno para la tecnología más avanzada del mercado. Somos una empresa joven y dinámica, comprometida con ofrecer productos de la más alta calidad a precios competitivos.</p>
+                
+                <p>Desde nuestros inicios, nos hemos especializado en traer las últimas innovaciones tecnológicas directamente a tu hogar. Nuestra misión es democratizar el acceso a la tecnología de vanguardia, haciendo que productos exclusivos estén al alcance de todos.</p>
+
+                <h3 style="text-align: center; margin: 30px 0; color: #2c3e50;">Nuestro Equipo</h3>
+                <div class="team-grid">
+                    <div class="team-card">
+                        <h4>Viviana Ruiz</h4>
+                        <p><strong>CEO & Fundadora</strong></p>
+                        <p>Ingeniera en Sistemas con 10 años de experiencia en el sector tecnológico. Especialista en innovación y desarrollo de productos.</p>
+                    </div>
+                    <div class="team-card">
+                        <h4>Erika Casas</h4>
+                        <p><strong>Directora Técnica</strong></p>
+                        <p>Experta en hardware y nuevas tecnologías. Responsable de la selección y evaluación de nuestros productos.</p>
+                    </div>
+                    <div class="team-card">
+                        <h4>Pepita García</h4>
+                        <p><strong>Gerente de Ventas</strong></p>
+                        <p>Especialista en atención al cliente y estrategias comerciales. Garantiza la mejor experiencia de compra para nuestros usuarios.</p>
+                    </div>
+                    <div class="team-card">
+                        <h4>Pepito Perez</h4>
+                        <p><strong>Jefe de Logística</strong></p>
+                        <p>Coordina toda la cadena de suministro y garantiza entregas rápidas y seguras en todo el país.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección Servicios -->
+            <section id="servicios" class="section">
+                <h2>Nuestros Servicios</h2>
+                <p>En TechStore no solo vendemos productos, ofrecemos soluciones integrales para todas tus necesidades tecnológicas. Nuestros servicios están diseñados para brindarte la mejor experiencia desde la compra hasta el uso continuo de tus dispositivos.</p>
+
+                <div class="services-grid">
+                    <div class="service-card">
+                        <h3>🔧 Soporte Técnico Especializado</h3>
+                        <p>Nuestro equipo de técnicos certificados está disponible 24/7 para resolver cualquier problema o duda que tengas con tus dispositivos. Ofrecemos:</p>
+                        <ul style="margin-top: 15px; padding-left: 20px;">
+                            <li>Configuración inicial de equipos</li>
+                            <li>Resolución de problemas técnicos</li>
+                            <li>Actualizaciones de software</li>
+                            <li>Optimización de rendimiento</li>
+                            <li>Consultoría tecnológica personalizada</li>
+                        </ul>
+                    </div>
+                    <div class="service-card">
+                        <h3>🚚 Entrega Express y Instalación</h3>
+                        <p>Garantizamos la entrega más rápida del mercado con nuestro servicio premium de logística. Incluye:</p>
+                        <ul style="margin-top: 15px; padding-left: 20px;">
+                            <li>Entrega en menos de 24 horas en ciudades principales</li>
+                            <li>Instalación profesional a domicilio</li>
+                            <li>Configuración completa del equipo</li>
+                            <li>Capacitación básica de uso</li>
+                            <li>Garantía extendida en instalación</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección Contacto -->
+            <section id="contacto" class="section">
+                <h2>Contáctenos</h2>
+                <div class="contact-info">
+                    <h3>📍 Información de Contacto</h3>
+                    <div class="contact-item">
+                        <strong>📱 WhatsApp:</strong> +57 999 999 999
+                    </div>
+                    <div class="contact-item">
+                        <strong>📞 Celular:</strong> +57 333 333 333
+                    </div>
+                    <div class="contact-item">
+                        <strong>🏢 Dirección:</strong> Carrera 0 #0-23, Centro Comercial Los Angares, Local 205, Medellín, Antioquia, Colombia
+                    </div>
+                    <div class="contact-item">
+                        <strong>⏰ Horarios de Atención:</strong> Lunes a Viernes: 8:00 AM - 7:00 PM | Sábados: 9:00 AM - 5:00 PM
+                    </div>
+                </div>
+
+                <div class="map-container">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.1234567890!2d-75.5812!3d6.2442!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sMedell%C3%ADn%2C+Antioquia%2C+Colombia!5e0!3m2!1ses!2sco!4v1234567890"
+                        width="100%" 
+                        height="100%" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy">
+                    </iframe>
+                </div>
+            </section>
+
+            <!-- Sección Cotización -->
+            <section id="cotizacion" class="section">
+                <h2>Solicitud de Cotización</h2>
+                <p style="text-align: center; margin-bottom: 30px;">Completa el siguiente formulario y recibe una cotización personalizada en menos de 24 horas.</p>
+                
+                <form class="quote-form" onsubmit="generateQuote(event)">
+                    <div class="form-group">
+                        <label for="nombre">Nombre Completo *</label>
+                        <input type="text" id="nombre" name="nombre" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Correo Electrónico *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="telefono">Teléfono</label>
+                        <input type="tel" id="telefono" name="telefono">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="categoria">Categoría de Producto *</label>
+                        <select id="categoria" name="categoria" required onchange="updatePrice()">
+                            <option value="">Selecciona una categoría</option>
+                            <option value="smartphones">📱 Smartphones</option>
+                            <option value="laptops">💻 Laptops</option>
+                            <option value="gaming">🎮 Gaming</option>
+                            <option value="audio">🎧 Audio</option>
+                            <option value="smart-home">🏠 Smart Home</option>
+                            <option value="accesorios">🔌 Accesorios</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cantidad">Cantidad</label>
+                        <input type="number" id="cantidad" name="cantidad" min="1" value="1" onchange="updatePrice()">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="presupuesto">Presupuesto Aproximado (COP)</label>
+                        <select id="presupuesto" name="presupuesto">
+                            <option value="">Selecciona un rango</option>
+                            <option value="0-500000">$0 - $500,000</option>
+                            <option value="500000-1000000">$500,000 - $1,000,000</option>
+                            <option value="1000000-2000000">$1,000,000 - $2,000,000</option>
+                            <option value="2000000-5000000">$2,000,000 - $5,000,000</option>
+                            <option value="5000000+">Más de $5,000,000</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="descripcion">Descripción de lo que necesitas</label>
+                        <textarea id="descripcion" name="descripcion" rows="4" placeholder="Describe los productos específicos que te interesan, características especiales, o cualquier requerimiento particular..."></textarea>
+                    </div>
+                    
+                    <div id="cotizacion-resultado" style="display: none; margin-top: 20px; padding: 20px; background: rgba(46, 204, 113, 0.1); border-radius: 10px; border-left: 4px solid #2ecc71;">
+                        <h3 style="color: #27ae60; margin-bottom: 15px;">💡 Cotización Estimada</h3>
+                        <div id="cotizacion-detalles"></div>
+                    </div>
+                    
+                    <button type="submit" class="btn-submit">✨ Generar Cotización</button>
+                </form>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            // Ocultar todas las secciones
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Mostrar la sección seleccionada
+            document.getElementById(sectionId).classList.add('active');
+        }
+
+        function updatePrice() {
+            const categoria = document.getElementById('categoria').value;
+            const cantidad = parseInt(document.getElementById('cantidad').value) || 1;
+            
+            if (!categoria) return;
+            
+            const precios = {
+                'smartphones': 800000,
+                'laptops': 2500000,
+                'gaming': 3500000,
+                'audio': 400000,
+                'smart-home': 600000,
+                'accesorios': 150000
+            };
+            
+            const precioBase = precios[categoria] || 0;
+            const total = precioBase * cantidad;
+            
+            // Mostrar estimación preliminar si hay valores
+            if (precioBase > 0) {
+                const resultado = document.getElementById('cotizacion-resultado');
+                const detalles = document.getElementById('cotizacion-detalles');
+                
+                detalles.innerHTML = `
+                    <p><strong>Categoría:</strong> ${categoria.charAt(0).toUpperCase() + categoria.slice(1)}</p>
+                    <p><strong>Cantidad:</strong> ${cantidad} unidad(es)</p>
+                    <p><strong>Precio estimado por unidad:</strong> $${precioBase.toLocaleString('es-CO')} COP</p>
+                    <p><strong>Total estimado:</strong> $${total.toLocaleString('es-CO')} COP</p>
+                    <p style="font-size: 0.9em; color: #7f8c8d; margin-top: 10px;">
+                        <em>* Precio estimado. La cotización final puede variar según especificaciones exactas y disponibilidad.</em>
+                    </p>
+                `;
+                
+                resultado.style.display = 'block';
+            }
+        }
+
+        function generateQuote(event) {
+            event.preventDefault();
+            
+            const nombre = document.getElementById('nombre').value;
+            const email = document.getElementById('email').value;
+            const categoria = document.getElementById('categoria').value;
+            const cantidad = parseInt(document.getElementById('cantidad').value) || 1;
+            const descripcion = document.getElementById('descripcion').value;
+            
+            if (!nombre || !email || !categoria) {
+                alert('Por favor completa todos los campos requeridos.');
+                return;
+            }
+            
+            const precios = {
+                'smartphones': 800000,
+                'laptops': 2500000,
+                'gaming': 3500000,
+                'audio': 400000,
+                'smart-home': 600000,
+                'accesorios': 150000
+            };
+            
+            const precioBase = precios[categoria] || 0;
+            const subtotal = precioBase * cantidad;
+            const descuento = cantidad > 5 ? subtotal * 0.1 : 0;
+            const total = subtotal - descuento;
+            
+            const resultado = document.getElementById('cotizacion-resultado');
+            const detalles = document.getElementById('cotizacion-detalles');
+            
+            detalles.innerHTML = `
+                <div style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <h4 style="color: #2c3e50; margin-bottom: 15px;">🎉 ¡Cotización Generada Exitosamente!</h4>
+                    <p><strong>Cliente:</strong> ${nombre}</p>
+                    <p><strong>Email:</strong> ${email}</p>
+                    <p><strong>Categoría:</strong> ${categoria.charAt(0).toUpperCase() + categoria.slice(1)}</p>
+                    <p><strong>Cantidad:</strong> ${cantidad} unidad(es)</p>
+                    <p><strong>Precio por unidad:</strong> $${precioBase.toLocaleString('es-CO')} COP</p>
+                    <p><strong>Subtotal:</strong> $${subtotal.toLocaleString('es-CO')} COP</p>
+                    ${descuento > 0 ? `<p style="color: #27ae60;"><strong>Descuento (10% por cantidad):</strong> -$${descuento.toLocaleString('es-CO')} COP</p>` : ''}
+                    <hr style="margin: 15px 0; border: 1px solid #ecf0f1;">
+                    <p style="font-size: 1.2em; color: #2c3e50;"><strong>TOTAL:</strong> $${total.toLocaleString('es-CO')} COP</p>
+                    ${descripcion ? `<p style="margin-top: 15px;"><strong>Observaciones:</strong> ${descripcion}</p>` : ''}
+                    
+                    <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+                        <p style="margin: 0; font-size: 0.9em; color: #7f8c8d;">
+                            📧 <strong>Próximos pasos:</strong> Te enviaremos una cotización detallada a tu correo electrónico en las próximas 24 horas con productos específicos y condiciones de pago.
+                        </p>
+                    </div>
+                </div>
+            `;
+            
+            resultado.style.display = 'block';
+            resultado.scrollIntoView({ behavior: 'smooth' });
+            
+            // Limpiar formulario
+            document.querySelector('.quote-form').reset();
+        }
+
+        // Mostrar la primera sección por defecto
+        document.addEventListener('DOMContentLoaded', function() {
+            showSection('tienda');
+        });
+    </script>
+</body>
+</html>
